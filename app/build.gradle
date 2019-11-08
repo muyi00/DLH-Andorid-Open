@@ -9,7 +9,7 @@ android {
         applicationId "com.dlh.open"
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
