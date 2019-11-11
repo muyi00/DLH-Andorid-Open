@@ -16,4 +16,3 @@
 -  implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 -  implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
 -  implementation 'com.alibaba:fastjson:1.1.31'
--  implementation 'com.blankj:utilcode:1.25.9'

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @des: 完整的列表视图
+ * @des: 完整的列表视图，LinearLayout内动态添加项
  * @time: 2019/11/11
  * @author: YJ
  */
