@@ -1,4 +1,4 @@
-package com.dlh.open.Utils;
+package com.dlh.open.utils;
 
 import android.util.Log;
 
