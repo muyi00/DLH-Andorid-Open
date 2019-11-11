@@ -11,10 +11,17 @@ public abstract class OnBottomMenuClickListener implements View.OnClickListener 
 
     private boolean isManualClose = false;
 
+    /***
+     * 菜单点击回调
+     */
     public OnBottomMenuClickListener() {
 
     }
 
+    /***
+     * 菜单点击回调
+     * @param isManualClose 点击后是否手动关闭
+     */
     public OnBottomMenuClickListener(boolean isManualClose) {
         this.isManualClose = isManualClose;
     }

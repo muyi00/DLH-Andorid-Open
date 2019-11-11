@@ -26,11 +26,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @des: 仿苹果底部弹出菜单
- * @time: 2019/11/8 15:18
- * @author: YJ
- */
 public class BottomMenuDialog extends BottomSheetDialogFragment implements View.OnClickListener {
     public static final String TAG = "BOTTOM_MENU";
 
@@ -40,6 +35,8 @@ public class BottomMenuDialog extends BottomSheetDialogFragment implements View.
     private Map<String, OnBottomMenuClickListener> listeners;
     //菜单文字颜色
     private int textColor = Color.parseColor("#0f81ef");
+    //菜单文字大小
+    private float textSizeSp = 18f;
 
     private LinearLayout rootView;
     protected Dialog dialog;
@@ -54,6 +51,8 @@ public class BottomMenuDialog extends BottomSheetDialogFragment implements View.
     public BottomMenuDialog(BottomMenuBuilder builder) {
         titles = builder.titles;
         listeners = builder.listeners;
+        textColor = builder.textColor;
+        textSizeSp = builder.textSizeSp;
     }
 
     @Override
@@ -154,7 +153,7 @@ public class BottomMenuDialog extends BottomSheetDialogFragment implements View.
     private View initView(String button, int position, boolean hasBottomLine, boolean hasBottomGap) {
         TextView childView = new TextView(mContext);
         childView.setText(button);
-        childView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        childView.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSizeSp);
         childView.setTextColor(textColor);
         childView.setTag(position);
         childView.setGravity(Gravity.CENTER);
@@ -172,12 +171,7 @@ public class BottomMenuDialog extends BottomSheetDialogFragment implements View.
         return childView;
     }
 
-
-    public void setTextColor(int color) {
-        this.textColor = color;
-    }
-
-    public StateListDrawable getDrawableListByType(boolean leftTop, boolean rightTop, boolean rightBottom, boolean leftBottom) {
+    private StateListDrawable getDrawableListByType(boolean leftTop, boolean rightTop, boolean rightBottom, boolean leftBottom) {
         StateListDrawable stateListDrawable = new StateListDrawable();
         Drawable selectDrawable = getWhitShape(5, 0xffCCCCCC, leftTop, rightTop, rightBottom, leftBottom);
         Drawable defaultDrawable = getWhitShape(5, 0xffffffff, leftTop, rightTop, rightBottom, leftBottom);
@@ -187,7 +181,7 @@ public class BottomMenuDialog extends BottomSheetDialogFragment implements View.
         return stateListDrawable;
     }
 
-    public Drawable getWhitShape(int radius, int bgColor, boolean leftTop, boolean rightTop, boolean rightBottom, boolean leftBottom) {
+    private Drawable getWhitShape(int radius, int bgColor, boolean leftTop, boolean rightTop, boolean rightBottom, boolean leftBottom) {
         float r = dp2px(getContext(), radius);
         float a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0, a6 = 0, a7 = 0, a8 = 0;
         if (leftTop) {
@@ -216,14 +210,28 @@ public class BottomMenuDialog extends BottomSheetDialogFragment implements View.
         return sd;
     }
 
+    /***
+     * 显示菜单
+     * @param manager
+     */
     public void show(FragmentManager manager) {
         if (!this.isAdded()) {
             show(manager, TAG);
         }
     }
 
+    /***
+     * 是否关闭
+     * @return
+     */
+    public boolean isDismiss() {
+        if (getDialog() == null) {
+            return true;
+        }
+        return false;
+    }
 
-    public static int dp2px(Context context, float dpVal) {
+    private static int dp2px(Context context, float dpVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 dpVal, context.getResources().getDisplayMetrics());
     }
@@ -253,6 +261,11 @@ public class BottomMenuDialog extends BottomSheetDialogFragment implements View.
         //必要参数 监听器集合
         private Map<String, OnBottomMenuClickListener> listeners;
 
+        //标题字体颜色
+        private int textColor = Color.parseColor("#0f81ef");
+        //标题字体大小
+        private float textSizeSp = 18f;
+
         public BottomMenuBuilder() {
             titles = new ArrayList<>();
             listeners = new HashMap<>();
@@ -267,22 +280,51 @@ public class BottomMenuDialog extends BottomSheetDialogFragment implements View.
         }
 
 
+        /***
+         * 添加菜单
+         * @param title 菜单名称
+         * @param listener 点击回调
+         * @return
+         */
         public BottomMenuBuilder addItem(String title, OnBottomMenuClickListener listener) {
             titles.add(title);
             listeners.put(String.valueOf(titles.size()), listener);
             return this;
         }
+
+        /***
+         * 设置菜单字体颜色和字体大小
+         * @param textColor 字体颜色
+         * @param textSizeSp 字体大小
+         * @return
+         */
+        public BottomMenuBuilder setTextColorAndtextSize(int textColor, float textSizeSp) {
+            this.textColor = textColor;
+            this.textSizeSp = textSizeSp;
+            return this;
+        }
+
+        /***
+         * 设置菜单字体颜色
+         * @param textColor 字体颜色
+         * @return
+         */
+        public BottomMenuBuilder setTextColor(int textColor) {
+            this.textColor = textColor;
+            return this;
+        }
+
+        /***
+         * 设置菜单字体大小
+         * @param textSizeSp 字体大小
+         * @return
+         */
+        public BottomMenuBuilder setTextSize(float textSizeSp) {
+            this.textSizeSp = textSizeSp;
+            return this;
+        }
     }
 
-    /***
-     * 是否关闭了
-     * @return
-     */
-    public boolean isDismiss() {
-        if (getDialog() == null) {
-            return true;
-        }
-        return false;
-    }
+
 
 }
